@@ -63,8 +63,6 @@ main = do
   SDL.destroyWindow window
   SDL.quit
 
-rect x y w h = SDL.Rectangle (P $ V2 x y) (V2 w h)
-
 renderSvgExample :: SDL.Renderer -> IO ()
 renderSvgExample renderer = do
   mimage <- getDataFileName "thumbs-up.svg" >>= loadSVGImage
@@ -72,13 +70,12 @@ renderSvgExample renderer = do
     Nothing -> putStrLn "Image convertion failed."
     (Just image) -> do
       let surfaceSize :: V2 CInt
-          surfaceSize = V2 1280 720
+          surfaceSize = V2 screenWidth screenHeight
       surface <- createSurfaceFromSVG image surfaceSize
       texture <- SDL.createTextureFromSurface renderer surface
-      V2 surfaceWidth surfaceHeight <- SDL.surfaceDimensions surface
       SDL.freeSurface surface
-      let source = rect 0 0 surfaceWidth surfaceHeight
-          dest = rect 0 0 surfaceWidth surfaceHeight
+      let source = SDL.Rectangle (P $ V2 0 0) surfaceSize
+          dest = SDL.Rectangle (P $ V2 0 0) surfaceSize
           angle = 0.0
           center = Nothing
           flipNone = V2 False False
