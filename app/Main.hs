@@ -71,7 +71,7 @@ renderSvgExample renderer = do
     Nothing -> putStrLn "Image convertion failed."
     (Just image) -> do
       let surfaceSize :: V2 CInt
-          surfaceSize = V2 screenWidth screenHeight
+          surfaceSize = V2 512 512
       surface <- createSurfaceFromSVG image surfaceSize
       texture <- SDL.createTextureFromSurface renderer surface
       SDL.freeSurface surface
@@ -97,9 +97,9 @@ createSurfaceFromSVG image surfaceSize = do
       imWidth :: Int
       imWidth = imageWidth image
       pitch :: CInt
-      pitch = fromIntegral imWidth
+      pitch = 4 * fromIntegral imWidth
   mutableVector <- convertToMutableVector rawImageData
-  SDL.createRGBSurfaceFrom mutableVector surfaceSize pitch SDL.RGBA8888
+  SDL.createRGBSurfaceFrom mutableVector surfaceSize pitch SDL.ABGR8888
 
 convertToMutableVector :: Vector Word8 -> IO (IOVector Word8)
 convertToMutableVector= thaw
