@@ -25,7 +25,7 @@ import SDL.Vect (Point(P), V2(V2), V4(V4))
 import Control.Concurrent (threadDelay)
 import SDL (($=))
 
-import Paths_svg_loading (getDataFileName)
+import Paths_render_svg_in_sdl2_haskell (getDataFileName)
 
 screenWidth, screenHeight :: CInt
 (screenWidth, screenHeight) = (1280, 720)
