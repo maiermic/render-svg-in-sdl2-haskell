@@ -5,6 +5,7 @@ module Main where
 import Codec.Picture
 import Codec.Picture.Types
 import Data.Vector.Storable.Mutable (IOVector)
+import Data.Vector.Generic (thaw)
 import Graphics.Rasterific.Svg
        (loadCreateFontCache, renderSvgDocument)
 import Graphics.Svg (loadSvgFile)
@@ -100,14 +101,8 @@ createSurfaceFromSVG image surfaceSize = do
   mutableVector <- convertToMutableVector rawImageData
   SDL.createRGBSurfaceFrom mutableVector surfaceSize pitch SDL.RGBA8888
 
--- | as per https://github.com/haskell/vector/issues/175, there are some missing convertion functions
---   so we have to create one by hand
 convertToMutableVector :: Vector Word8 -> IO (IOVector Word8)
-convertToMutableVector v = do
-  let len = V.length v
-  mv <- GM.new len
-  CM.forM_ [0 .. (len - 1)] $ \i -> GM.write mv i (v V.! i)
-  return mv
+convertToMutableVector= thaw
 
 loadSVGImage :: FilePath -> IO (Maybe (Image PixelRGBA8))
 loadSVGImage filepath = do
