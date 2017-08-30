@@ -2,16 +2,21 @@ name:                svg-loading
 version:             0.1.0.0
 -- synopsis:
 -- description:
-homepage:            https://github.com/githubuser/svg-loading#readme
+homepage:            https://github.com/maiermic/svg-loading#readme
 license:             BSD3
 license-file:        LICENSE
-author:              Author name here
-maintainer:          example@example.com
-copyright:           2017 Author name here
+author:              Michael Maier
+maintainer:          maier1michael@gmail.com
+copyright:           2017 Michael Maier
 category:            Web
 build-type:          Simple
 extra-source-files:  README.md
 cabal-version:       >=1.10
+
+data-dir:
+  assets
+data-files:
+  *.svg
 
 library
   hs-source-dirs:      src
@@ -25,6 +30,11 @@ executable svg-loading-exe
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   build-depends:       base
                      , svg-loading
+                     , svg-tree        >= 0.6.1    && < 0.7
+                     , rasterific-svg  >= 0.3.2    && < 0.4
+                     , JuicyPixels     >= 3.2.8.2  && < 4.0
+                     , vector          >= 0.12.0.1 && < 0.13
+                     , sdl2            >= 2.1.3.1  && < 3.0
   default-language:    Haskell2010
 
 test-suite svg-loading-test
@@ -38,4 +48,4 @@ test-suite svg-loading-test
 
 source-repository head
   type:     git
-  location: https://github.com/githubuser/svg-loading
+  location: https://github.com/maiermic/svg-loading
