@@ -67,7 +67,7 @@ main = do
 
 renderSvgExample :: SDL.Renderer -> IO ()
 renderSvgExample renderer = do
-  mimage <- getDataFileName "rock.svg" >>= loadSVGImage
+  mimage <- getDataFileName "thumbs-up.svg" >>= loadSVGImage
   case mimage of
     Nothing -> putStrLn "Image convertion failed."
     (Just (image@Image {imageWidth, imageHeight})) -> do
