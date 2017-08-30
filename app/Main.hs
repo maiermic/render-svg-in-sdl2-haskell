@@ -1,11 +1,12 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE NamedFieldPuns #-}
 
 module Main where
 
 import Codec.Picture
 import Codec.Picture.Types
-import Data.Vector.Storable.Mutable (IOVector)
 import Data.Vector.Generic (thaw)
+import Data.Vector.Storable.Mutable (IOVector)
 import Graphics.Rasterific.Svg
        (loadCreateFontCache, renderSvgDocument)
 import Graphics.Svg (loadSvgFile)
@@ -66,12 +67,12 @@ main = do
 
 renderSvgExample :: SDL.Renderer -> IO ()
 renderSvgExample renderer = do
-  mimage <- getDataFileName "thumbs-up.svg" >>= loadSVGImage
+  mimage <- getDataFileName "rock.svg" >>= loadSVGImage
   case mimage of
     Nothing -> putStrLn "Image convertion failed."
-    (Just image) -> do
+    (Just (image@Image {imageWidth, imageHeight})) -> do
       let surfaceSize :: V2 CInt
-          surfaceSize = V2 512 512
+          surfaceSize = V2 (fromIntegral imageWidth) (fromIntegral imageHeight)
       surface <- createSurfaceFromSVG image surfaceSize
       texture <- SDL.createTextureFromSurface renderer surface
       SDL.freeSurface surface
@@ -102,7 +103,7 @@ createSurfaceFromSVG image surfaceSize = do
   SDL.createRGBSurfaceFrom mutableVector surfaceSize pitch SDL.ABGR8888
 
 convertToMutableVector :: Vector Word8 -> IO (IOVector Word8)
-convertToMutableVector= thaw
+convertToMutableVector = thaw
 
 loadSVGImage :: FilePath -> IO (Maybe (Image PixelRGBA8))
 loadSVGImage filepath = do
