@@ -54,7 +54,7 @@ main = do
       { SDL.rendererType = SDL.AcceleratedVSyncRenderer
       , SDL.rendererTargetTexture = True
       }
-  SDL.rendererDrawColor renderer $= V4 110 132 174 maxBound
+  SDL.rendererDrawColor renderer $= V4 maxBound maxBound maxBound maxBound
   SDL.clear renderer
   renderSvgExample renderer
   SDL.present renderer
